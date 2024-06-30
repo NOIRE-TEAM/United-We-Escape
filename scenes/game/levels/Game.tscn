@@ -1,0 +1,84 @@
+[gd_scene load_steps=3 format=3 uid="uid://h3k2h6hhmbo2"]
+
+[ext_resource type="Script" path="res://scenes/game/levels/Game.gd" id="1_wbrlw"]
+[ext_resource type="PackedScene" uid="uid://b1dadn3u51cii" path="res://scenes/game/levels/game_players_list/PlayerElem.tscn" id="2_pdu6x"]
+
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wbrlw")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+split_offset = 80
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="PlayerElem" parent="HSplitContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_pdu6x")]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="HSplitContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="HSplitContainer/CenterContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="Button1" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "0;0"
+
+[node name="Button2" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "0;1"
+
+[node name="Button3" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "0;2"
+
+[node name="Button4" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "1;0"
+
+[node name="Button5" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "1;1"
+
+[node name="Button6" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "1;2"
+
+[node name="Button7" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "2;0"
+
+[node name="Button8" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "2;1"
+
+[node name="Button9" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+layout_mode = 2
+text = "2;2"
+
+[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button1" to="." method="_on_button_1_pressed"]
+[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button3" to="." method="_on_button_3_pressed"]
+[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button4" to="." method="_on_button_4_pressed"]
+[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button5" to="." method="_on_button_5_pressed"]
+[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button6" to="." method="_on_button_6_pressed"]
+[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button7" to="." method="_on_button_7_pressed"]
+[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button8" to="." method="_on_button_8_pressed"]
+[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button9" to="." method="_on_button_9_pressed"]

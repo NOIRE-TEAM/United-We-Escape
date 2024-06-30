@@ -8,6 +8,7 @@ anchors_preset = 0
 script = ExtResource("1_fkvn8")
 
 [node name="Connect" type="Button" parent="."]
+layout_mode = 0
 offset_left = 676.0
 offset_top = 376.0
 offset_right = 1229.0
@@ -16,6 +17,7 @@ theme_override_font_sizes/font_size = 25
 text = "Подключиться к лобби"
 
 [node name="Create lobby" type="Button" parent="."]
+layout_mode = 0
 offset_left = 681.0
 offset_top = 540.0
 offset_right = 1234.0
