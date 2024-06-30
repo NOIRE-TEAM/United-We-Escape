@@ -8,6 +8,7 @@ anchors_preset = 0
 script = ExtResource("1_bfs2o")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
 offset_right = 489.0
 offset_bottom = 1078.0
 color = Color(0.0156863, 0.00784314, 0.00392157, 1)
@@ -29,6 +30,7 @@ layout_mode = 2
 text = "Тест 1"
 
 [node name="Button" type="Button" parent="."]
+layout_mode = 0
 offset_left = 596.0
 offset_top = 296.0
 offset_right = 1836.0

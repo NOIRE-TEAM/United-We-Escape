@@ -28,15 +28,15 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	$CenterContainer/GridContainer/Button1.set_text(str(level[0][0]))
-	$CenterContainer/GridContainer/Button2.set_text(str(level[0][1]))
-	$CenterContainer/GridContainer/Button3.set_text(str(level[0][2]))
-	$CenterContainer/GridContainer/Button4.set_text(str(level[1][0]))
-	$CenterContainer/GridContainer/Button5.set_text(str(level[1][1]))
-	$CenterContainer/GridContainer/Button6.set_text(str(level[1][2]))
-	$CenterContainer/GridContainer/Button7.set_text(str(level[2][0]))
-	$CenterContainer/GridContainer/Button8.set_text(str(level[2][1]))
-	$CenterContainer/GridContainer/Button9.set_text(str(level[2][2]))
+	$HSplitContainer/CenterContainer/GridContainer/Button1.set_text(str(level[0][0]))
+	$HSplitContainer/CenterContainer/GridContainer/Button2.set_text(str(level[0][1]))
+	$HSplitContainer/CenterContainer/GridContainer/Button3.set_text(str(level[0][2]))
+	$HSplitContainer/CenterContainer/GridContainer/Button4.set_text(str(level[1][0]))
+	$HSplitContainer/CenterContainer/GridContainer/Button5.set_text(str(level[1][1]))
+	$HSplitContainer/CenterContainer/GridContainer/Button6.set_text(str(level[1][2]))
+	$HSplitContainer/CenterContainer/GridContainer/Button7.set_text(str(level[2][0]))
+	$HSplitContainer/CenterContainer/GridContainer/Button8.set_text(str(level[2][1]))
+	$HSplitContainer/CenterContainer/GridContainer/Button9.set_text(str(level[2][2]))
 
 # Called only on the server.
 func start_game():
