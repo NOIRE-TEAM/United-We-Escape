@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" path="res://scenes/gui/supra_lobby.gd" id="1_bfs2o"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_bfs2o")
 
 [node name="ColorRect" type="ColorRect" parent="."]
