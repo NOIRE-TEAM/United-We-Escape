@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://h3k2h6hhmbo2"]
+[gd_scene load_steps=4 format=3 uid="uid://h3k2h6hhmbo2"]
 
 [ext_resource type="Script" path="res://scenes/game/levels/Game.gd" id="1_wbrlw"]
 [ext_resource type="PackedScene" uid="uid://b1dadn3u51cii" path="res://scenes/game/levels/game_players_list/PlayerElem.tscn" id="2_pdu6x"]
+[ext_resource type="PackedScene" uid="uid://hj2lpyqj83kb" path="res://scenes/test_choice.tscn" id="3_sw45g"]
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -19,66 +20,118 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-split_offset = 80
+split_offset = 200
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer"]
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/ScrollContainer"]
 layout_mode = 2
+theme_override_constants/separation = 30
 
 [node name="PlayerElem" parent="HSplitContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_pdu6x")]
 layout_mode = 2
 
-[node name="CenterContainer" type="CenterContainer" parent="HSplitContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer"]
 layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 15
 
-[node name="GridContainer" type="GridContainer" parent="HSplitContainer/CenterContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="HSplitContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 4
+
+[node name="GridContainer" type="GridContainer" parent="HSplitContainer/VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
 columns = 3
 
-[node name="Button1" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+[node name="Button1" type="Button" parent="HSplitContainer/VBoxContainer/CenterContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "0;0"
 
-[node name="Button2" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+[node name="Button2" type="Button" parent="HSplitContainer/VBoxContainer/CenterContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "0;1"
 
-[node name="Button3" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+[node name="Button3" type="Button" parent="HSplitContainer/VBoxContainer/CenterContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "0;2"
 
-[node name="Button4" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+[node name="Button4" type="Button" parent="HSplitContainer/VBoxContainer/CenterContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "1;0"
 
-[node name="Button5" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+[node name="Button5" type="Button" parent="HSplitContainer/VBoxContainer/CenterContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "1;1"
 
-[node name="Button6" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+[node name="Button6" type="Button" parent="HSplitContainer/VBoxContainer/CenterContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "1;2"
 
-[node name="Button7" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+[node name="Button7" type="Button" parent="HSplitContainer/VBoxContainer/CenterContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "2;0"
 
-[node name="Button8" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+[node name="Button8" type="Button" parent="HSplitContainer/VBoxContainer/CenterContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "2;1"
 
-[node name="Button9" type="Button" parent="HSplitContainer/CenterContainer/GridContainer"]
+[node name="Button9" type="Button" parent="HSplitContainer/VBoxContainer/CenterContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "2;2"
 
-[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button1" to="." method="_on_button_1_pressed"]
-[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button2" to="." method="_on_button_2_pressed"]
-[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button3" to="." method="_on_button_3_pressed"]
-[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button4" to="." method="_on_button_4_pressed"]
-[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button5" to="." method="_on_button_5_pressed"]
-[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button6" to="." method="_on_button_6_pressed"]
-[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button7" to="." method="_on_button_7_pressed"]
-[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button8" to="." method="_on_button_8_pressed"]
-[connection signal="pressed" from="HSplitContainer/CenterContainer/GridContainer/Button9" to="." method="_on_button_9_pressed"]
+[node name="Label" type="Label" parent="HSplitContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 42
+text = "Время до конца голосования:"
+
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/margin_top = 120
+
+[node name="Node2D2" parent="HSplitContainer/VBoxContainer/MarginContainer" instance=ExtResource("3_sw45g")]
+visible = false
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Vote_timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[connection signal="pressed" from="HSplitContainer/VBoxContainer/CenterContainer/GridContainer/Button1" to="." method="_on_button_1_pressed"]
+[connection signal="pressed" from="HSplitContainer/VBoxContainer/CenterContainer/GridContainer/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="HSplitContainer/VBoxContainer/CenterContainer/GridContainer/Button3" to="." method="_on_button_3_pressed"]
+[connection signal="pressed" from="HSplitContainer/VBoxContainer/CenterContainer/GridContainer/Button4" to="." method="_on_button_4_pressed"]
+[connection signal="pressed" from="HSplitContainer/VBoxContainer/CenterContainer/GridContainer/Button5" to="." method="_on_button_5_pressed"]
+[connection signal="pressed" from="HSplitContainer/VBoxContainer/CenterContainer/GridContainer/Button6" to="." method="_on_button_6_pressed"]
+[connection signal="pressed" from="HSplitContainer/VBoxContainer/CenterContainer/GridContainer/Button7" to="." method="_on_button_7_pressed"]
+[connection signal="pressed" from="HSplitContainer/VBoxContainer/CenterContainer/GridContainer/Button8" to="." method="_on_button_8_pressed"]
+[connection signal="pressed" from="HSplitContainer/VBoxContainer/CenterContainer/GridContainer/Button9" to="." method="_on_button_9_pressed"]
+[connection signal="visibility_changed" from="HSplitContainer/VBoxContainer/MarginContainer/Node2D2" to="." method="_on_node_2d_2_visibility_changed"]
+[connection signal="timeout" from="Vote_timer" to="." method="_on_vote_timer_timeout"]

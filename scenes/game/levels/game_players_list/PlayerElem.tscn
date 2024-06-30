@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://b1dadn3u51cii"]
+[gd_scene load_steps=2 format=3 uid="uid://b1dadn3u51cii"]
+
+[ext_resource type="Script" path="res://scenes/game/levels/game_players_list/PlayerElem.gd" id="1_6b80e"]
 
 [node name="PlayerElem" type="Control"]
 layout_mode = 3
@@ -7,12 +9,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_6b80e")
 
-[node name="HSplitContainer" type="HSplitContainer" parent="."]
+[node name="HSplitContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 offset_right = 71.0
 offset_bottom = 23.0
-split_offset = 40
 
 [node name="uid" type="Label" parent="HSplitContainer"]
 layout_mode = 2

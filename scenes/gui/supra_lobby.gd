@@ -31,5 +31,5 @@ func _on_button_pressed():
 	for player in Lobby.players:
 		if player == 1:
 			continue
-		rpc_id(player,"load_game","res://scenes/test_choice.tscn")
-	rpc("load_game","res://scenes/test_choice.tscn")
+		rpc_id(player,"load_game","res://scenes/game/levels/Game.tscn")
+	rpc("load_game","res://scenes/game/levels/Game.tscn")

@@ -70,7 +70,7 @@ func player_loaded():
 	if multiplayer.is_server():
 		players_loaded += 1
 		if players_loaded == players.size():
-			$/root/scenes/test_choice.start_game()
+			$/root/Game.start_game()
 			players_loaded = 0
 
 
