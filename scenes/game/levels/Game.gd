@@ -21,8 +21,6 @@ var traps = level.duplicate(true)
 
 var route = level.duplicate(true)
 
-
-
 var startPosX: int = 0
 var startPosY: int = 0
 var endPosX: int = 2
@@ -81,7 +79,10 @@ func update_traps(traps_array):
 
 func add_label_player(player_id):
 	var label = one_player.instantiate()
-	label._set_name(str(player_id))
+	var name = Lobby.players[player_id].name
+	if player_id == multiplayer.get_unique_id():
+		name += " (Вы)"
+	label._set_name(name)
 	label._set_status(Lobby.players[player_id].status)
 	container.add_child(label)
 
@@ -140,10 +141,23 @@ func _process(delta):
 func unpause_game():
 	get_tree().paused = false
 
+@rpc("any_peer", "call_local", "reliable")
+func player_set_name(name):
+	Lobby.players[multiplayer.get_unique_id()].name = name
+	for player in Lobby.players:
+		rpc_id(player, "id_set_name", multiplayer.get_unique_id(), name)
+
+@rpc("any_peer", "call_local", "reliable")
+func id_set_name(id, name):
+	Lobby.players[id].name = name
+
 # Called only on the server.
 func start_game():
+	var counter: int = 0
 	for player in Lobby.players:
 		rpc_id(player, "unpause_game")
+		rpc_id(player, "player_set_name", knights_names[counter])
+		counter += 1
 
 func _on_choice(y: int, x: int):
 	print(Lobby.players)
