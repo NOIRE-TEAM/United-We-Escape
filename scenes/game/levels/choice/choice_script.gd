@@ -33,15 +33,24 @@ func _ready():
 	#rpc_id(1,"update_info", multiplayer.get_unique_id(), Lobby.player_info.test)
 	#Lobby.player_loaded.rpc_id(1)
 	
+	
 @rpc("any_peer", "call_local", "reliable")
 func update_votes(player_name, delta):
 	votes[player_name] += delta
 
-@rpc("any_peer", "call_remote", "reliable")
-func sync_result(result):
-	#kicked_player = result
-	print("QQEQNQNDON1 ", kicked_player, ", id ", multiplayer.get_unique_id())
-	can_continue_signal.emit(result)
+@rpc("any_peer", "call_local", "reliable")
+func sync_result(result, max):
+	kicked_player = result
+	if max == 0:
+		$VBoxContainer/Player_to_kick.set_text("Выбор не был сделан")
+	elif kicked_player == skip_button.text:
+		$VBoxContainer/Player_to_kick.set_text("Игроки выбрали пропустить голосование")
+	else:
+		$VBoxContainer/Player_to_kick.set_text("Выбранный игрок: " + Lobby.players[int(kicked_player)].name)
+		#print(int(kicked_player))
+		Lobby.players[int(kicked_player)].status = "✖"
+	print(votes)
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -58,29 +67,17 @@ func is_button_pressed(id):
 	print("Vote for: " + id)
 
 func _on_timer_timeout():
-	var max = -1
-	for button in buttons:
-		if votes[button.text] > max:
-			max = votes[button.text]
-			kicked_player = button.text
 	$VBoxContainer/Player_to_kick.set_text("Подсчёт голосов...")
-	for player in Lobby.players:
-		if (player != 1 && multiplayer.get_unique_id() == 1):
-			print("QQEQNQNDON2 ", kicked_player)
-			rpc_id(player, "sync_result", kicked_player)
-	if multiplayer.get_unique_id() != 1:
-		kicked_player = await can_continue_signal
-	print("QQEQNQNDON ", kicked_player)
-	if max == 0:
-		$VBoxContainer/Player_to_kick.set_text("Выбор не был сделан")
-	elif kicked_player == skip_button.text:
-		$VBoxContainer/Player_to_kick.set_text("Игроки выбрали пропустить голосование")
-	else:
-		$VBoxContainer/Player_to_kick.set_text("Выбранный игрок: " + Lobby.players[int(kicked_player)].name)
-		#print(int(kicked_player))
-		Lobby.players[int(kicked_player)].status = "✖"
-	print(votes)
-	$Show_kick_timer.start(3)
+	if multiplayer.is_server():
+		var max = -1
+		for button in buttons:
+			if votes[button.text] > max:
+				max = votes[button.text]
+				kicked_player = button.text
+		for player in Lobby.players:
+			rpc_id(player, "sync_result", kicked_player, max)
+				
+	$Show_kick_timer.start(5)
 	#rpc_id(1,"update_info", multiplayer.get_unique_id(), Lobby.players)
 
 
