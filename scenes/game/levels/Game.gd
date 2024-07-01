@@ -16,6 +16,10 @@ const ghost_name = "Чёрный Дух"
 var level = [[0, 0, 0],
 			 [0, 0, 0],
 			 [0, 0, 0]]
+			
+var traps = level.duplicate(true)
+
+var route = level.duplicate(true)
 
 
 
@@ -30,6 +34,13 @@ var posY:int = 0
 var choiceX: int = -1
 var choiceY: int = -1
 
+var HP = 100
+var trapDamage = 50
+var trapsNumber = 3
+var HPLabelConst = "HP: "
+@onready var HPLabel = $VBoxContainer2/HPLabel
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	vote_kick.hide()
@@ -37,7 +48,36 @@ func _ready():
 	Lobby.player_info.status = "✓"
 	rpc_id(1,"update_info", multiplayer.get_unique_id(), Lobby.player_info)
 	Lobby.player_loaded.rpc_id(1) # Tell the server that this peer has loaded.
+	
+	if multiplayer.is_server():
+		add_traps(trapsNumber)
+		
+	print(level)
+	print(traps)
+	
+	HPLabel.text = HPLabelConst + str(HP)
+	
 	get_tree().paused = true
+	
+func add_traps(traps_number: int):
+	var placed_ones = 0
+	
+	while placed_ones < traps_number:
+		var i = randi() % traps.size()
+		var j = randi() % traps[0].size()
+		
+		if traps[i][j] == 0 && (i > 0 || j > 0) && (i < 2 || j < 2):
+			traps[i][j] = 1
+			placed_ones += 1
+			
+	for player in Lobby.players:
+		if player == 1:
+			continue
+		rpc_id(player, 'update_traps', traps)
+			
+@rpc("any_peer", "call_local", "reliable")
+func update_traps(traps_array):
+	traps = traps_array.duplicate()
 
 func add_label_player(player_id):
 	var label = one_player.instantiate()
@@ -82,12 +122,19 @@ func _process(delta):
 				button.disabled = false
 			else:
 				button.disabled = true
-				button.set_text("")
+				button.set_text("x")
 			
 			if x == posX && y == posY:
-				button.self_modulate = Color(255, 0, 0)
+				button.self_modulate = Color.ORANGE
+				
+			elif route[y][x] == 1:
+				button.self_modulate = Color8(144, 238, 144)
+			elif route[y][x] == 2:
+				button.self_modulate = Color.RED
+			elif x == 2 && y == 2:
+				button.self_modulate = Color.CYAN
 			else:
-				button.self_modulate = Color(255, 255, 255)
+				button.self_modulate = Color8(255, 255, 255)
 				
 @rpc("any_peer", "call_local", "reliable")
 func unpause_game():
@@ -99,6 +146,9 @@ func start_game():
 		rpc_id(player, "unpause_game")
 
 func _on_choice(y: int, x: int):
+	print(Lobby.players)
+	if Lobby.players[multiplayer.get_unique_id()].status == "✖":
+		return
 	if choiceX != -1:
 		#level[choiceX][choiceY] -= 1
 		for player in Lobby.players:
@@ -109,6 +159,7 @@ func _on_choice(y: int, x: int):
 	for player in Lobby.players:
 		rpc_id(player,"update_level", choiceY, choiceX, 1)
 	print(y, "; ", x)
+	print('Traps: ', traps)
 
 func _on_button_1_pressed():
 	_on_choice(0, 0)
@@ -151,6 +202,10 @@ func _on_vote_timer_timeout():
 				max = level[y][x]
 				maxX = x
 				maxY = y
+	
+	if route[posY][posX] == 0:
+		route[posY][posX] = 1
+	
 	posX = maxX
 	posY = maxY
 	for y in range(0,3):
@@ -158,10 +213,36 @@ func _on_vote_timer_timeout():
 			level[y][x] = 0
 	choiceX = -1
 	choiceY = -1
+	
 	$HSplitContainer/VBoxContainer/Label.hide()
-	vote_kick.show()
-	$HSplitContainer/VBoxContainer/MarginContainer/Node2D2.show()
+	
+	if posX == 2 && posY == 2:
+		for player in Lobby.players:
+			if player == 1:
+				continue
+			rpc_id(player,"load_ending","res://scenes/game/levels/endings/winner.tscn")
+		rpc("load_ending","res://scenes/game/levels/endings/winner.tscn")
+	
+	if traps[posY][posX] == 1:
+		route[posY][posX] = 2
+		HP -= trapDamage
+		HPLabel.text = HPLabelConst + str(HP)
+		
+		if HP <= 0:
+			for player in Lobby.players:
+				if player == 1:
+					continue
+				rpc_id(player,"load_ending","res://scenes/game/levels/endings/looser.tscn")
+			rpc("load_ending","res://scenes/game/levels/endings/looser.tscn")
+		
+		vote_kick.show()
+		$HSplitContainer/VBoxContainer/MarginContainer/Node2D2.show()
+	else: 
+		_on_node_2d_2_visibility_changed()
 
+@rpc("any_peer", "call_local", "reliable")
+func load_ending(game_scene_path):
+	get_tree().change_scene_to_file(game_scene_path)
 
 func _on_node_2d_2_visibility_changed():
 	print("changechan")

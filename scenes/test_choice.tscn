@@ -64,9 +64,15 @@ layout_mode = 2
 size_flags_horizontal = 4
 label_settings = SubResource("LabelSettings_du4hk")
 
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Пропустить голосование"
+
 [node name="Show_kick_timer" type="Timer" parent="."]
 one_shot = true
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="timeout" from="Show_kick_timer" to="." method="_on_show_kick_timer_timeout"]
