@@ -2,6 +2,7 @@ extends Control
 
 @onready var timer = $Timer
 @onready var container = $VBoxContainer/HBoxContainer
+@onready var skip_button = $VBoxContainer/Button
 
 var votes = {}
 var buttons = []
@@ -9,7 +10,7 @@ var choice_id = "-1"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$VBoxContainer/Player_to_kick.set_text("")
+	$VBoxContainer/Player_to_kick.set_text("Вы попали в ловушку. Хотите кого-то выгнать?")
 	Lobby.player_info.test = 2
 	for child in container.get_children():
 		child.queue_free()
@@ -22,6 +23,8 @@ func _ready():
 		votes[str(player)] = 0
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL 
 		container.add_child(button)
+	votes[skip_button.text] = 0
+	buttons.append(skip_button)
 	print(votes)
 	#rpc_id(1,"update_info", multiplayer.get_unique_id(), Lobby.player_info.test)
 	#Lobby.player_loaded.rpc_id(1)
@@ -59,11 +62,14 @@ func _on_timer_timeout():
 			max = votes[button.text]
 			kicked_player = button.text
 	if max == 0:
-		$VBoxContainer/Player_to_kick.set_text("Выбранный игрок: никто")
+		$VBoxContainer/Player_to_kick.set_text("Выбор не был сделан")
+	elif kicked_player == skip_button.text:
+		$VBoxContainer/Player_to_kick.set_text("Игроки выбрали пропустить голосование")
 	else:
 		$VBoxContainer/Player_to_kick.set_text("Выбранный игрок: " + kicked_player)
 		#print(int(kicked_player))
 		Lobby.players[int(kicked_player)].status = "✖"
+	print(votes)
 	$Show_kick_timer.start(3)
 	#rpc_id(1,"update_info", multiplayer.get_unique_id(), Lobby.players)
 
@@ -71,8 +77,12 @@ func _on_timer_timeout():
 func _on_visibility_changed():
 	if visible:
 		timer.start(10)
-		$VBoxContainer/Player_to_kick.set_text("")
+		$VBoxContainer/Player_to_kick.set_text("Вы попали в ловушку. Хотите кого-то выгнать?")
 
 
 func _on_show_kick_timer_timeout():
 	visible = not visible
+
+
+func _on_button_pressed():
+	is_button_pressed(skip_button.text)
